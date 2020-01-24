@@ -6,7 +6,6 @@ import { ROM } from './ROM';
 const memory = new Uint8Array(_6502.MEMORY_SIZE);
 let state = new _6502.State();
 
-let PC = 0;
 memory.set(new Uint8Array(ROM), 0xB000);
 
 const getMemory = (offset: number) => {
@@ -22,7 +21,9 @@ const setMemory = (offset: number, value: number) => {
 
 state = _6502.performIRQ(state, getMemory, setMemory, 0xFFFE, false);
 
-while (state.PC != PC) {
-    PC = state.PC;
+const cont = () => {
     state = _6502.step(state, getMemory, setMemory);
+    setImmediate(() => cont());
 }
+
+setImmediate(() => cont());
