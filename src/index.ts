@@ -113,6 +113,11 @@ const setMemory = (offset: number, value: number) => {
 
 window.addEventListener('keypress', (ev) => {
     // TODO: Proper keyCode map.
+    if (ev.ctrlKey && ev.keyCode >= 0x41 && ev.keyCode <= 0x5A) {
+        setMemory(0xC000, ev.keyCode + 0x40);
+        return;
+    }
+
     setMemory(0xC000, 128 + ev.keyCode);
 });
 
