@@ -9,6 +9,7 @@ let state = new _6502.State();
 memory.set(new Uint8Array(ROM), 0xB000);
 
 const getMemory = (offset: number) => {
+    if (offset === 0xC010) setMemory(0xC000, 0);
     return memory[offset];
 };
 
@@ -18,6 +19,11 @@ const setMemory = (offset: number, value: number) => {
     }
     memory[offset] = value;
 };
+
+window.addEventListener('keypress', (ev) => {
+    // TODO: Proper keyCode map.
+    setMemory(0xC000, 128 + ev.keyCode);
+});
 
 state = _6502.performIRQ(state, getMemory, setMemory, 0xFFFE, false);
 
