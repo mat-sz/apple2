@@ -2,6 +2,7 @@ import * as _6502 from '6502';
 import './App.scss';
 
 import { ROM } from './ROM';
+import charSet from './charSet';
 
 const text = document.getElementById('text');
 const memory = new Uint8Array(_6502.MEMORY_SIZE);
@@ -102,8 +103,9 @@ const setMemory = (offset: number, value: number) => {
             column = offset - 0x07D0;
         }
 
-        // TODO: Proper keyCode map.
-        screen[line] = replaceCharAt(screen[line], column, String.fromCharCode(value - 128));
+        const charCode = value - 128;
+        if (!(charCode in charSet)) console.log(charCode);
+        screen[line] = replaceCharAt(screen[line], column, charCode in charSet ? charSet[charCode] : '§');
         text.innerText = screen.join("\n");
     }
     memory[offset] = value;
