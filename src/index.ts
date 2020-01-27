@@ -4,6 +4,16 @@ import './App.scss';
 import { ROM } from './ROM';
 import charSet from './charSet';
 
+const ctrlB = document.getElementById('ctrl-b');
+ctrlB.addEventListener('click', () => {
+    setMemory(0xC000, 0x82);
+});
+
+const ctrlC = document.getElementById('ctrl-c');
+ctrlC.addEventListener('click', () => {
+    setMemory(0xC000, 0x83);
+});
+
 const text = document.getElementById('text');
 const memory = new Uint8Array(_6502.MEMORY_SIZE);
 let state = new _6502.State();
