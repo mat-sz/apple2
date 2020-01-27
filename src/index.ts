@@ -8,12 +8,12 @@ const text = document.getElementById('text');
 const memory = new Uint8Array(_6502.MEMORY_SIZE);
 let state = new _6502.State();
 
-let screen: string[] = new Array(24).fill(' ').map((str) => str.repeat(40));
+let screen: string[] = new Array(24).fill('').map(() => ' '.repeat(40));
 
 memory.set(new Uint8Array(ROM), 0xB000);
 
 const replaceCharAt = (str: string, i: number, character: string) => {
-    return str.substring(0, i - 1) + character + str.substring(i + 1);
+    return str.substring(0, i) + character + str.substring(i + 1);
 }
 
 const getMemory = (offset: number) => {
