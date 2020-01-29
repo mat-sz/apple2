@@ -20,7 +20,7 @@ let state = new _6502.State();
 
 let screen: string[] = new Array(24).fill('').map(() => ' '.repeat(40));
 
-memory.set(new Uint8Array(ROM), 0xB000);
+memory.set(new Uint8Array(ROM), 0xD000);
 
 const replaceCharAt = (str: string, i: number, character: string) => {
     return str.substring(0, i) + character + str.substring(i + 1);
@@ -131,7 +131,7 @@ window.addEventListener('keypress', (ev) => {
     setMemory(0xC000, 128 + ev.keyCode);
 });
 
-state = _6502.performIRQ(state, getMemory, setMemory, 0xFFFE, false);
+state = _6502.performIRQ(state, getMemory, setMemory, 0xFFFC, false);
 
 const step = () => {
     if (!document.hidden) {
