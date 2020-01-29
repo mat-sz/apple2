@@ -40,7 +40,7 @@ const getMemory = (offset: number) => {
 const setMemory = (offset: number, value: number) => {
     if (offset >= 0x0400 && offset <= 0x07FF) {
         let line = 0;
-        let column = 0x0400;
+        let column = 0;
 
         // There's got to be a better way.
         // But I'm really determined to get this working.
