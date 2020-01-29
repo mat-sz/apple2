@@ -136,9 +136,10 @@ state = _6502.performIRQ(state, getMemory, setMemory, 0xFFFE, false);
 const step = () => {
     if (!document.hidden) {
         state = _6502.step(state, getMemory, setMemory);
+        setImmediate(step);
+    } else {
+        setTimeout(step, 500);
     }
-
-    setImmediate(() => step());
 }
 
 step();
