@@ -14,6 +14,12 @@ ctrlC.addEventListener('click', () => {
     setMemory(0xC000, 0x83);
 });
 
+const reset = document.getElementById('reset');
+reset.addEventListener('click', () => {
+    state = new _6502.State();
+    state = _6502.performIRQ(state, getMemory, setMemory, 0xFFFC, false);
+});
+
 const text = document.getElementById('text');
 const memory = new Uint8Array(_6502.MEMORY_SIZE);
 let state = new _6502.State();
