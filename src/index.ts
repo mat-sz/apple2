@@ -133,9 +133,12 @@ window.addEventListener('keypress', (ev) => {
 
 state = _6502.performIRQ(state, getMemory, setMemory, 0xFFFE, false);
 
-const cont = () => {
-    state = _6502.step(state, getMemory, setMemory);
-    setImmediate(() => cont());
+const step = () => {
+    if (!document.hidden) {
+        state = _6502.step(state, getMemory, setMemory);
+    }
+
+    setImmediate(() => step());
 }
 
-setImmediate(() => cont());
+step();
