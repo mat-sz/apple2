@@ -16,8 +16,7 @@ ctrlC.addEventListener('click', () => {
 
 const reset = document.getElementById('reset');
 reset.addEventListener('click', () => {
-    state = new _6502.State();
-    state = _6502.performIRQ(state, getMemory, setMemory, 0xFFFC, false);
+    state = _6502.performReset(getMemory);
 });
 
 const text = document.getElementById('text');
@@ -120,8 +119,7 @@ const setMemory = (offset: number, value: number) => {
         }
 
         const charCode = value - 128;
-        if (!(charCode in charSet)) console.log(charCode);
-        screen[line] = replaceCharAt(screen[line], column, charCode in charSet ? charSet[charCode] : '§');
+        screen[line] = replaceCharAt(screen[line], column, charCode in charSet ? charSet[charCode] : ' ');
         text.innerText = screen.join("\n");
     }
     memory[offset] = value;
@@ -137,7 +135,7 @@ window.addEventListener('keypress', (ev) => {
     setMemory(0xC000, 128 + ev.keyCode);
 });
 
-state = _6502.performIRQ(state, getMemory, setMemory, 0xFFFC, false);
+state = _6502.performReset(getMemory);
 
 const step = () => {
     if (!document.hidden) {
