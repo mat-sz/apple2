@@ -125,14 +125,22 @@ const setMemory = (offset: number, value: number) => {
     memory[offset] = value;
 };
 
+window.addEventListener('keydown', (ev) => {
+    // Backspace hack.
+    if (ev.keyCode === 8) {
+        setMemory(0xC000, 128 + 8);
+    }
+});
+
 window.addEventListener('keypress', (ev) => {
     // TODO: Proper keyCode map.
-    if (ev.ctrlKey && ev.keyCode >= 0x41 && ev.keyCode <= 0x5A) {
-        setMemory(0xC000, ev.keyCode + 0x40);
+    let code = ev.keyCode;
+    if (ev.ctrlKey && code >= 0x41 && code <= 0x5A) {
+        setMemory(0xC000, code + 0x40);
         return;
     }
 
-    setMemory(0xC000, 128 + ev.keyCode);
+    setMemory(0xC000, 128 + code);
 });
 
 state = _6502.performReset(getMemory);
