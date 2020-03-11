@@ -32,7 +32,7 @@ const replaceCharAt = (str: string, i: number, character: string) => {
 }
 
 const getMemory = (offset: number) => {
-    if (offset === 0xC010) setMemory(0xC000, 0);
+    if (offset === 0xC010) setMemory(0xC000, memory[0xC000] & 0x7F);
     return memory[offset];
 };
 
