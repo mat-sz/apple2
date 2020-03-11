@@ -1,7 +1,7 @@
 import * as _6502 from '6502';
 import './App.scss';
 
-import { ROM } from './ROM';
+import { ROM, ROM_START } from './ROM';
 import charSet from './charSet';
 
 const ctrlB = document.getElementById('ctrl-b');
@@ -25,7 +25,7 @@ let state = new _6502.State();
 
 let screen: string[] = new Array(24).fill('').map(() => ' '.repeat(40));
 
-memory.set(new Uint8Array(ROM), 0xD000);
+memory.set(new Uint8Array(ROM), ROM_START);
 
 const replaceCharAt = (str: string, i: number, character: string) => {
     return str.substring(0, i) + character + str.substring(i + 1);
@@ -37,6 +37,8 @@ const getMemory = (offset: number) => {
 };
 
 const setMemory = (offset: number, value: number) => {
+    // Prevent ROM writes.
+    if (offset >= ROM_START) return;
     if (offset >= 0x0400 && offset <= 0x07FF) {
         let line = 0;
         let column = 0;
@@ -148,6 +150,8 @@ state = _6502.performReset(getMemory);
 const step = () => {
     if (!document.hidden) {
         state = _6502.step(state, getMemory, setMemory);
+        if (state.PC === 0xD409) console.log('D409');
+        if (state.PC === 0xD40D) console.log('D40D');
         setImmediate(step);
     } else {
         setTimeout(step, 500);
