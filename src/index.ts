@@ -19,11 +19,8 @@ reset.addEventListener('click', () => {
     state = _6502.performReset(getMemory);
 });
 
-const text = document.getElementById('text');
 const memory = new Uint8Array(_6502.MEMORY_SIZE);
 let state = new _6502.State();
-
-let screen: string[] = new Array(24).fill('').map(() => ' '.repeat(40));
 
 memory.set(new Uint8Array(ROM), ROM_START);
 
