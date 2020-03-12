@@ -10,7 +10,7 @@ const textLineMap = [
 const display = document.getElementById('display') as HTMLCanvasElement;
 const ctx = display.getContext('2d');
 
-export function updateDisplay(memory: Uint8Array) {
+export function updateDisplay(getMemory: (offset: number) => number) {
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, display.width, display.height);
 
@@ -21,7 +21,7 @@ export function updateDisplay(memory: Uint8Array) {
         let text = '';
         for (let column = 0; column <= 0x27; column++) {
             const address = textLineMap[line] + column;
-            text += charSet[memory[address] - 128] ?? ' ';
+            text += charSet[getMemory(address) - 128] ?? ' ';
         }
 
         ctx.fillText(text, 10, 25 + line * 20);
